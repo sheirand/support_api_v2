@@ -1,0 +1,5 @@
+/support_api/user/migrations/
+/support_api/.env
+/support_api/data
+/venv/
+.idea/

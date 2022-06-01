@@ -5,7 +5,7 @@ from user.authentication import CustomUserAuthentication
 from issue.models import Issue, Comments
 from issue.serializers import IssueSerializer, IssueStatusSerializer, CommentSerializer
 from issue.permissions import IsOwnerOrStaff, IsStaff
-from user.services import select_user_via_email
+
 
 class IssueViewSet(viewsets.ModelViewSet):
     authentication_classes = (CustomUserAuthentication,)
@@ -22,8 +22,6 @@ class IssueViewSet(viewsets.ModelViewSet):
                 return Issue.objects.filter(created_by=self.request.user)
             else:
                 return Issue.objects.filter(created_by=self.request.user, pk=pk)
-#        else:
-#           raise exceptions.AuthenticationFailed("Not authorized")
 
     def get_serializer_class(self):
         if self.action in ['update', 'partially_update',
@@ -69,6 +67,4 @@ class CommentsViewSet(mixins.CreateModelMixin,
             return Comments.objects.filter(issue_id=issue_id, pk=pk)
 
     def perform_create(self, serializer):
-        # if not self.request.user.is_authenticated:
-        #     raise exceptions.AuthenticationFailed("Not authorized")
-         serializer.save(created_by=self.request.user, issue_id=self.kwargs.get('issue_id'))
+        serializer.save(created_by=self.request.user, issue_id=self.kwargs.get('issue_id'))

@@ -1,7 +1,6 @@
 from django.conf import settings
 from rest_framework import authentication, exceptions
 import jwt
-
 from user import models
 
 

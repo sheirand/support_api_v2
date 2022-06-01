@@ -13,7 +13,8 @@ class Issue(models.Model):
     ]
     STAFF_LIST = [(str(staff), str(staff)) for staff in User.objects.filter(is_staff=True)]
 
-    created_by = models.ForeignKey(User, verbose_name="created by", on_delete=models.CASCADE, related_name="Issue_created_by")
+    created_by = models.ForeignKey(User, verbose_name="created by",
+                                   on_delete=models.CASCADE, related_name="Issue_created_by")
     status = models.CharField(choices=ISSUE_STATUSES, max_length=255, default=ACTIVE)
     title = models.CharField(max_length=150, verbose_name="title")
     body = models.TextField(verbose_name="Issue description")

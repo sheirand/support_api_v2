@@ -10,6 +10,7 @@ from rest_framework import viewsets, mixins, views, exceptions, response
 class RegisterAPIView(mixins.CreateModelMixin,
                       GenericViewSet):
     queryset = User.objects.all()
+    authentication_classes = (CustomUserAuthentication,)
 
     def get_serializer_class(self):
         if self.request.user.is_superuser:

@@ -3,3 +3,4 @@
 /support_api/data
 /venv/
 .idea/
+/support_api/issue/migrations/

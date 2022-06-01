@@ -23,6 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', RegisterAPIView.as_view({'post': 'create'}), name="register"),
     path('login/', LoginAPIView.as_view(), name="login"),
-    path('profile/', UserAPIView.as_view({'get': 'list', 'put': 'update', 'delete': 'destroy'}), name="profile"),
+    path('profile/', UserAPIView.as_view({'get': 'list'}), name="profile"),
     path('logout/', LogoutAPIView.as_view(), name="logout"),
 ]

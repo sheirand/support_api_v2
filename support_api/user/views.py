@@ -45,9 +45,7 @@ class LoginAPIView(views.APIView):
         return resp
 
 
-class UserAPIView(mixins.UpdateModelMixin,
-                  mixins.DestroyModelMixin,
-                  mixins.ListModelMixin,
+class UserAPIView(mixins.ListModelMixin,
                   GenericViewSet):
     serializer_class = UserSerializer
     authentication_classes = (CustomUserAuthentication,)

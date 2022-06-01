@@ -1,6 +1,6 @@
 from rest_framework.viewsets import GenericViewSet
-from rest_framework.permissions import IsAdminUser
-
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from user.authentication import CustomUserAuthentication
 from user import services
 from user.models import User
 from user.serializer import UserSerializer
@@ -52,11 +52,20 @@ class UserAPIView(mixins.UpdateModelMixin,
                   mixins.ListModelMixin,
                   GenericViewSet):
     serializer_class = UserSerializer
-    #authentication_classes = ()
-    #permission_classes = ()
+    authentication_classes = (CustomUserAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         queryset = User.objects.filter(email=self.request.user.email)
-        print(queryset)
         return queryset
 
+
+class LogoutAPIView(views.APIView):
+    authentication_classes = (CustomUserAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        resp = response.Response()
+        resp.delete_cookie("jwt")
+        resp.data = {"Logout": "goodbye!"}
+        return resp

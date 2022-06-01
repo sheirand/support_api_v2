@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from user.views import RegisterAPIView, LoginAPIView, UserAPIView
+from user.views import RegisterAPIView, LoginAPIView, UserAPIView, LogoutAPIView
 
 
 urlpatterns = [
@@ -24,4 +24,5 @@ urlpatterns = [
     path('register/', RegisterAPIView.as_view({'post': 'create'}), name="register"),
     path('login/', LoginAPIView.as_view(), name="login"),
     path('profile/', UserAPIView.as_view({'get': 'list', 'put': 'update', 'delete': 'destroy'}), name="profile"),
+    path('logout/', LogoutAPIView.as_view(), name="logout"),
 ]

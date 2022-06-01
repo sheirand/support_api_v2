@@ -3,20 +3,18 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from user.authentication import CustomUserAuthentication
 from user import services
 from user.models import User
-from user.serializer import UserSerializer
+from user.serializer import UserSerializer, StaffSerializer
 from rest_framework import viewsets, mixins, views, exceptions, response
 
 
 class RegisterAPIView(mixins.CreateModelMixin,
                       GenericViewSet):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
-    # permission_classes = (IsAdminUser,)
 
-    # def get_serializer_class(self):
-    #     if self.request.user.is_staff:
-    #         return UserSerializer
-    #     return UserSerializer2
+    def get_serializer_class(self):
+        if self.request.user.is_superuser:
+            return StaffSerializer
+        return UserSerializer
 
 
 class LoginAPIView(views.APIView):

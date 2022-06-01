@@ -9,6 +9,7 @@ class UserAdmin(admin.ModelAdmin):
         "last_name",
         "email"
     )
+    search_fields = ('email',)
 
 
 admin.site.register(models.User, UserAdmin)

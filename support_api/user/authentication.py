@@ -20,4 +20,4 @@ class CustomUserAuthentication(authentication.BaseAuthentication):
 
         user = models.User.objects.filter(id=payload["id"]).first()
 
-        return (user, None)
+        return user, None

@@ -15,13 +15,11 @@ class IssueViewSet(viewsets.ModelViewSet):
         if self.request.user.is_staff:
             if not pk:
                 return Issue.objects.all()
-            else:
-                return Issue.objects.filter(pk=pk)
-        else:  # self.request.user.is_authenticated:
+            return Issue.objects.filter(pk=pk)
+        else:
             if not pk:
                 return Issue.objects.filter(created_by=self.request.user)
-            else:
-                return Issue.objects.filter(created_by=self.request.user, pk=pk)
+            return Issue.objects.filter(created_by=self.request.user, pk=pk)
 
     def get_serializer_class(self):
         if self.action in ['update', 'partially_update',

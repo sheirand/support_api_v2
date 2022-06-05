@@ -26,7 +26,7 @@ JWT_SECRET_KEY = config("JWT_SECRET")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [config("ALLOWED_HOSTS")]
+ALLOWED_HOSTS = config("ALLOWED_HOSTS").split()
 
 
 # Application definition

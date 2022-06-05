@@ -11,8 +11,6 @@ class Issue(models.Model):
         (FROZEN, "Frozen"),
         (RESOLVED, "Resolved"),
     ]
-    STAFF_LIST = [(str(staff), str(staff)) for staff in User.objects.filter(is_staff=True)]
-
     created_by = models.ForeignKey(User, verbose_name="created by",
                                    on_delete=models.CASCADE, related_name="Issue_created_by")
     status = models.CharField(choices=ISSUE_STATUSES, max_length=255, default=ACTIVE)
@@ -22,7 +20,8 @@ class Issue(models.Model):
     time_updated = models.DateTimeField(auto_now=True, verbose_name="last updated")
     updated_by = models.ForeignKey(User, related_name="Issue_updated_by",
                                    on_delete=models.CASCADE, null=True)
-    assignee = models.CharField(choices=STAFF_LIST, max_length=150, null=True)
+    assignee = models.ForeignKey(User, verbose_name="assigned to",
+                                 on_delete=models.CASCADE, null=True)
 
     class Meta:
         ordering = ['-time_created']

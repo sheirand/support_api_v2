@@ -139,3 +139,10 @@ AUTH_USER_MODEL = "user.User"
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+# smtp
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'evosdota@gmail.com'
+EMAIL_HOST_PASSWORD =''
+EMAIL_PORT = 587

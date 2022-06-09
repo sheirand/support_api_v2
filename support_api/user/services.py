@@ -1,7 +1,9 @@
-from user.models import User
 import datetime
+
 import jwt
 from django.conf import settings
+
+from user.models import User
 
 
 def select_user_via_email(email: str) -> "User":

@@ -1,12 +1,14 @@
-from rest_framework import viewsets, mixins
+from rest_framework import mixins, viewsets
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
-from user.authentication import CustomUserAuthentication
-from issue.models import Issue, Comments
-from issue.serializers import IssueSerializer, IssueStatusSerializer, CommentSerializer
+
+from issue.models import Comments, Issue
 from issue.permissions import IsOwnerOrStaff, IsStaff
+from issue.serializers import (CommentSerializer, IssueSerializer,
+                               IssueStatusSerializer)
 from issue.tasks import send_notification
+from user.authentication import CustomUserAuthentication
 
 
 class IssueViewSet(viewsets.ModelViewSet):

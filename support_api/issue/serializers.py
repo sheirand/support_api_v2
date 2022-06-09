@@ -1,5 +1,6 @@
-from issue.models import Issue, Comments
 from rest_framework import serializers
+
+from issue.models import Comments, Issue
 
 
 class IssueSerializer(serializers.ModelSerializer):

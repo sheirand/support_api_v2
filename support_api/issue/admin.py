@@ -1,5 +1,6 @@
 from django.contrib import admin
-from issue.models import Issue, Comments
+
+from issue.models import Comments, Issue
 
 
 class IssueAdmin(admin.ModelAdmin):

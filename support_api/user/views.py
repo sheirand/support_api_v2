@@ -1,10 +1,11 @@
-from rest_framework.viewsets import GenericViewSet
+from rest_framework import exceptions, mixins, response, views
 from rest_framework.permissions import IsAuthenticated
-from user.authentication import CustomUserAuthentication
+from rest_framework.viewsets import GenericViewSet
+
 from user import services
+from user.authentication import CustomUserAuthentication
 from user.models import User
-from user.serializer import UserSerializer, StaffSerializer
-from rest_framework import mixins, views, exceptions, response
+from user.serializer import StaffSerializer, UserSerializer
 
 
 class RegisterAPIView(mixins.CreateModelMixin,

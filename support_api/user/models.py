@@ -1,6 +1,6 @@
+from django.contrib.auth import models as auth_models
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
-from django.contrib.auth import models as auth_models
 
 
 class UserManager(auth_models.BaseUserManager):

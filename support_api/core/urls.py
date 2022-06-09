@@ -1,8 +1,10 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from user.views import RegisterAPIView, LoginAPIView, UserAPIView, LogoutAPIView
-from issue.views import IssueViewSet, CommentsViewSet
+
+from issue.views import CommentsViewSet, IssueViewSet
+from user.views import (LoginAPIView, LogoutAPIView, RegisterAPIView,
+                        UserAPIView)
 
 router_issue = DefaultRouter()
 router_comment = DefaultRouter()

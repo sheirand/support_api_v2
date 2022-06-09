@@ -2,15 +2,15 @@ from rest_framework import viewsets, mixins, exceptions
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
-
-from issue.services import send_email
 from user.authentication import CustomUserAuthentication
 from issue.models import Issue, Comments
 from issue.serializers import IssueSerializer, IssueStatusSerializer, CommentSerializer
 from issue.permissions import IsOwnerOrStaff, IsStaff
+from issue.tasks import send_notification
 
 
 class IssueViewSet(viewsets.ModelViewSet):
+    """Issue model view"""
     authentication_classes = (CustomUserAuthentication,)
 
     def get_queryset(self):
@@ -34,7 +34,6 @@ class IssueViewSet(viewsets.ModelViewSet):
         return serializer_class
 
     def get_permissions(self):
-
         if self.action == 'retrieve':
             permission_classes = (IsOwnerOrStaff, IsAuthenticated)
         elif self.action in ['update',
@@ -56,12 +55,19 @@ class IssueViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
 
-        # get email, assignee and status to use for email notification
-
-        send_email(user_email=str(instance.created_by),
-                   pk=instance.pk,
-                   status=serializer.validated_data.get('status'),
-                   assignee=serializer.validated_data.get('assignee'))
+        # email notification if status or assignee is changed
+        if serializer.validated_data.get('assignee') and \
+                (serializer.validated_data.get('assignee') != instance.assignee):
+            send_notification.delay(
+                pk=instance.pk,
+                assignee=str(serializer.validated_data.get('assignee'))
+            )
+        if instance.status != serializer.validated_data.get('status'):
+            send_notification.delay(
+                user_email=str(instance.created_by),
+                pk=instance.pk,
+                status=serializer.validated_data.get('status')
+            )
 
         self.perform_update(serializer)
 
@@ -77,6 +83,7 @@ class CommentsViewSet(mixins.CreateModelMixin,
                       mixins.RetrieveModelMixin,
                       mixins.ListModelMixin,
                       GenericViewSet):
+    """Comments model view"""
     authentication_classes = (CustomUserAuthentication,)
     permission_classes = (IsOwnerOrStaff, IsAuthenticated)
     serializer_class = CommentSerializer

@@ -146,3 +146,13 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'evosdota@gmail.com'
 EMAIL_HOST_PASSWORD =''
 EMAIL_PORT = 587
+
+# CELERY (+redis) settings
+REDIS_HOST = 'localhost'
+REDIS_PORT = '6379'
+CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+CELERY_accept_content = ['application/json']
+CELERY_task_serializer = 'json'
+CELERY_result_serializer = 'json'

@@ -1,8 +1,10 @@
 from django.core.mail import send_mail
 
 
-def send_email(user_email: str, pk: int, status: str = None, assignee: str = None):
+def send_email(user_email: str = None, pk: int = None, status: str = None, assignee: str = None):
     """ Email notification for status change and assign """
+    print(user_email, type(user_email))
+    print(assignee, type(assignee))
     if status:
         send_mail(
             "Notification from support team!",
@@ -19,6 +21,5 @@ def send_email(user_email: str, pk: int, status: str = None, assignee: str = Non
             [assignee],
             fail_silently=False
         )
-
 
 

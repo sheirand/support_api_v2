@@ -1,5 +1,5 @@
-from rest_framework import viewsets, mixins, exceptions
-from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
+from rest_framework import viewsets, mixins
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from user.authentication import CustomUserAuthentication

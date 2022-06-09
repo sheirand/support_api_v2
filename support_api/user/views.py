@@ -39,7 +39,7 @@ class LoginAPIView(views.APIView):
 
         token = services.create_jwt_token(user_id=user.id)
 
-        resp = response.Response({f"detail": f"You are authenticated as {email}"}, status=200)
+        resp = response.Response({"detail": f"You are authenticated as {email}"}, status=200)
 
         resp.set_cookie(key="jwt", value=token, httponly=True)
 

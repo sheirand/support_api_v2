@@ -23,13 +23,45 @@ def test_register_user(client):
 
 
 @pytest.mark.django_db
+def test_superuser_register_staff_user(auth_admin_client):
+    payload = dict(
+        first_name="Severus",
+        last_name="Snape",
+        email="potionteacher@hogwarts.com",
+        password="Forhowlong?Always!",
+        is_staff=True
+    )
+    response = auth_admin_client.post("/api/v1/user/", payload)
+
+    assert response.status_code == 201
+
+    data = response.data
+
+    assert data["first_name"] == payload["first_name"]
+    assert data["last_name"] == payload["last_name"]
+    assert data["email"] == payload["email"]
+    assert data["is_staff"] == payload["is_staff"]
+    assert "password" not in data
+
+
+@pytest.mark.django_db
 def test_login_user(user, client):
     response = client.post("/api/v1/user/login/",
                            dict(
-                               email="old_hobbit@shire.com",
+                               email=user.email,
                                password="youshallnotpass"),
                            )
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_fail_login_user(user, client):
+    response = client.post("/api/v1/user/login/",
+                           dict(
+                               email=user.email,
+                               password="youcouldpass"),
+                           )
+    assert response.status_code == 403
 
 
 @pytest.mark.django_db
@@ -47,3 +79,11 @@ def test_user_profile(user, auth_client):
     assert data["is_staff"] == user.is_staff
 
 
+@pytest.mark.django_db
+def test_user_logout(auth_client):
+
+    response = auth_client.post("/api/v1/user/logout/")
+
+    assert response.status_code == 200
+
+    assert response.data["detail"] == "Success, goodbye!"

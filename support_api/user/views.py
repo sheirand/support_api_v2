@@ -11,6 +11,8 @@ from user.serializer import StaffSerializer, UserSerializer
 class RegisterAPIView(mixins.CreateModelMixin,
                       GenericViewSet):
     queryset = User.objects.all()
+    authentication_classes = (CustomUserAuthentication,)
+    permission_classes = (AllowAny,)
 
     def get_serializer_class(self):
         if self.request.user.is_superuser:

@@ -16,6 +16,19 @@ def user():
 
     return user
 
+@pytest.fixture
+def superuser():
+    payload = dict(
+        first_name="Geralt",
+        last_name="of Rivia",
+        email="witcher@neverland.com",
+        password="nolesserevil",
+    )
+
+    user = User.objects.create_superuser(**payload)
+
+    return user
+
 
 @pytest.fixture
 def client():
@@ -29,5 +42,16 @@ def auth_client(user, client):
                     email=user.email,
                     password="youshallnotpass",
                 ))
+
     return client
 
+
+@pytest.fixture
+def auth_admin_client(superuser, client):
+    client.post("/api/v1/user/login/",
+                dict(
+                    email=superuser.email,
+                    password="nolesserevil"
+                ))
+
+    return client

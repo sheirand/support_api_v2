@@ -24,16 +24,7 @@ def test_register_user():
 
 
 @pytest.mark.django_db
-def test_login_user():
-    payload = dict(
-        first_name="Bilbo",
-        last_name="Bagiins",
-        email="old_hobbit@shire.com",
-        password="youshallnotpass"
-    )
-
-    client.post("/api/v1/user/", payload)
-
+def test_login_user(user):
     response = client.post("/api/v1/user/login/",
                            dict(
                                email="old_hobbit@shire.com",

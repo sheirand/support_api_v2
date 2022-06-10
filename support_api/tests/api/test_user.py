@@ -1,5 +1,7 @@
 import pytest
 
+from user import models
+
 
 @pytest.mark.django_db
 def test_register_user(client):
@@ -87,3 +89,38 @@ def test_user_logout(auth_client):
     assert response.status_code == 200
 
     assert response.data["detail"] == "Success, goodbye!"
+
+
+@pytest.mark.django_db
+def test_user_delete(auth_admin_client, user):
+
+    response = auth_admin_client.delete(f"/api/v1/user/{user.pk}/")
+
+    assert response.status_code == 204
+
+    with pytest.raises(models.User.DoesNotExist):
+        user.refresh_from_db()
+
+
+@pytest.mark.django_db
+def test_user_detail_forbidden(auth_client):
+
+    response = auth_client.get("/api/v1/user/1/")
+
+    assert response.status_code == 403
+
+@pytest.mark.django_db
+def test_user_cant_register_staff(auth_client):
+    payload = dict(
+        first_name="Severus",
+        last_name="Snape",
+        email="potionteacher@hogwarts.com",
+        password="Forhowlong?Always!",
+        is_staff=True
+    )
+
+    response = auth_client.post("/api/v1/user/", payload)
+
+    data = response.data
+
+    assert data['is_staff'] != payload['is_staff']

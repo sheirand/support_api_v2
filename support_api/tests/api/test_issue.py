@@ -1,4 +1,5 @@
 import pytest
+
 from issue import models as issue_models
 
 

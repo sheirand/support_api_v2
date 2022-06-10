@@ -37,13 +37,13 @@ class IssueViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action == 'retrieve':
-            permission_classes = (IsOwnerOrStaff, IsAuthenticated)
+            permission_classes = (IsOwnerOrStaff,)
         elif self.action in ['update',
                              'partial_update',
                              'perform_update']:
-            permission_classes = (IsStaff, IsAdminUser, IsAuthenticated)
+            permission_classes = (IsStaff,)
         elif self.action == 'destroy':
-            permission_classes = (IsAdminUser, IsAuthenticated)
+            permission_classes = (IsAdminUser,)
         else:
             permission_classes = (IsAuthenticated,)
         return [permission() for permission in permission_classes]

@@ -16,6 +16,22 @@ def user():
 
     return user
 
+
+@pytest.fixture
+def user_staff():
+    payload = dict(
+        first_name="Luke",
+        last_name="Skywalker",
+        email="jedi@starwars.com",
+        password="forcebewithyou",
+        is_staff=True
+    )
+
+    user = User.objects.create_user(**payload)
+
+    return user
+
+
 @pytest.fixture
 def superuser():
     payload = dict(
@@ -47,6 +63,17 @@ def auth_client(user, client):
 
 
 @pytest.fixture
+def auth_staff_client(user_staff, client):
+    client.post("/api/v1/user/login/",
+                dict(
+                    email=user_staff.email,
+                    password="forcebewithyou"
+                ))
+
+    return client
+
+
+@pytest.fixture
 def auth_admin_client(superuser, client):
     client.post("/api/v1/user/login/",
                 dict(
@@ -55,3 +82,14 @@ def auth_admin_client(superuser, client):
                 ))
 
     return client
+
+
+@pytest.fixture
+def user_created_issue_client(auth_client, user):
+    auth_client.post("/api/v1/issue/",
+                     dict(
+                         title="Help!",
+                         body="I need somebody!"
+                     ))
+
+    return auth_client

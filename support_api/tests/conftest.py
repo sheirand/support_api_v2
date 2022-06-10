@@ -1,5 +1,6 @@
 import pytest
 from user.models import User
+from rest_framework.test import APIClient
 
 
 @pytest.fixture
@@ -14,3 +15,19 @@ def user():
     user = User.objects.create_user(**payload)
 
     return user
+
+
+@pytest.fixture
+def client():
+    return APIClient()
+
+
+@pytest.fixture
+def auth_client(user, client):
+    client.post("/api/v1/user/login/",
+                dict(
+                    email=user.email,
+                    password="youshallnotpass",
+                ))
+    return client
+

@@ -12,7 +12,7 @@ router_comment = DefaultRouter()
 router_issue.register('issue', IssueViewSet, basename="Issue")
 router_comment.register('comment', CommentsViewSet, basename="Comment")
 router_issue.register('user', RegisterAPIView, basename="Register")
-router_issue.register('user/session/', UserAPIView, basename="Session")
+router_issue.register('user/session', UserAPIView, basename="Session")
 
 urlpatterns = [
     path('admin/', admin.site.urls),

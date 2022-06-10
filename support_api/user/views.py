@@ -1,5 +1,5 @@
-from rest_framework import exceptions, mixins, response, views
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework import exceptions, mixins, response, views, viewsets
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.viewsets import GenericViewSet
 
 from user import services
@@ -8,8 +8,7 @@ from user.models import User
 from user.serializer import StaffSerializer, UserSerializer
 
 
-class RegisterAPIView(mixins.CreateModelMixin,
-                      GenericViewSet):
+class RegisterAPIView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     authentication_classes = (CustomUserAuthentication,)
     permission_classes = (AllowAny,)
@@ -18,6 +17,13 @@ class RegisterAPIView(mixins.CreateModelMixin,
         if self.request.user.is_superuser:
             return StaffSerializer
         return UserSerializer
+
+    def get_permissions(self):
+        if self.action == "create":
+            permission_classes = (AllowAny,)
+        else:
+            permission_classes = (IsAdminUser,)
+        return [permission() for permission in permission_classes]
 
 
 class LoginAPIView(views.APIView):

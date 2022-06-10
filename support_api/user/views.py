@@ -1,5 +1,5 @@
 from rest_framework import exceptions, mixins, response, views
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.viewsets import GenericViewSet
 
 from user import services
@@ -11,7 +11,6 @@ from user.serializer import StaffSerializer, UserSerializer
 class RegisterAPIView(mixins.CreateModelMixin,
                       GenericViewSet):
     queryset = User.objects.all()
-    authentication_classes = (CustomUserAuthentication,)
 
     def get_serializer_class(self):
         if self.request.user.is_superuser:

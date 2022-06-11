@@ -1,29 +1,59 @@
 version: "3.7"
 
 services:
+  # django web application
   web:
     build: .
     command: sh -c "python manage.py makemigrations user &&
              python manage.py migrate user &&
              python manage.py makemigrations issue &&
              python manage.py migrate issue &&
-             python manage.py makemigrations &&
-             python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .app/:/usr/src/app/
     ports:
       - 8000:8000
-    env_file: .env
+    env_file:
+      - .env
     depends_on:
+      - redis
       - db
+  # postgres db
   db:
       image: postgres:12.0-alpine
+      restart: always
       volumes:
         - postgres_data:/var/lib/postgresql/data/
-      environment:
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=postgres
-        - POSTGRES_DB=postgres
+      env_file:
+        - .env
+  # redis message broker
+  redis:
+    image: redis:alpine
+    hostname: redis
+    container_name: redis
+  # celery
+  celery:
+    build:
+      context: .
+    command: celery -A core worker -l info --loglevel=INFO --concurrency 1 -P solo
+    container_name: celery
+    depends_on:
+      - web
+      - redis
+      - db
+    restart: on-failure
+  # flower for celery
+  flower:
+    build:
+      context: .
+    volumes:
+      - .app/:/usr/src/app/
+    ports:
+      - 5566:5566
+    command: celery -A core flower  --address=0.0.0.0 --port=5566
+    container_name: flower
+    depends_on:
+      - celery
+
 volumes:
   postgres_data:

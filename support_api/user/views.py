@@ -15,8 +15,9 @@ class RegisterAPIView(viewsets.ModelViewSet):
     permission_classes = (AllowAny,)
 
     def get_serializer_class(self):
-        if self.request.user.is_superuser:
-            return StaffSerializer
+        if self.request.user:
+            if self.request.user.is_superuser:
+                return StaffSerializer
         return UserSerializer
 
     def get_permissions(self):

@@ -109,6 +109,7 @@ def test_user_detail_forbidden(auth_client):
 
     assert response.status_code == 403
 
+
 @pytest.mark.django_db
 def test_user_cant_register_staff(auth_client):
     payload = dict(

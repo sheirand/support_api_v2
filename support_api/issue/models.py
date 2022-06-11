@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 from user.models import User
@@ -12,7 +13,7 @@ class Issue(models.Model):
         (FROZEN, "Frozen"),
         (RESOLVED, "Resolved"),
     ]
-    created_by = models.ForeignKey(User, verbose_name="created by",
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="created by",
                                    on_delete=models.CASCADE, related_name="Issue_created_by")
     status = models.CharField(choices=ISSUE_STATUSES, max_length=255, default=ACTIVE)
     title = models.CharField(max_length=150, verbose_name="title")
@@ -21,19 +22,19 @@ class Issue(models.Model):
     time_updated = models.DateTimeField(auto_now=True, verbose_name="last updated")
     updated_by = models.ForeignKey(User, related_name="Issue_updated_by",
                                    on_delete=models.CASCADE, null=True)
-    assignee = models.ForeignKey(User, verbose_name="assigned to",
+    assignee = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="assigned to",
                                  on_delete=models.CASCADE, null=True)
 
     class Meta:
         ordering = ['-time_created']
 
     def __str__(self):
-        return self.title
+        return str(self.pk)
 
 
 class Comments(models.Model):
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
-    created_by = models.ForeignKey(User, verbose_name="created by", on_delete=models.PROTECT)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="created by", on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True, verbose_name="created")
     body = models.TextField(verbose_name="comment")
 

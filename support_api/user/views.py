@@ -9,6 +9,7 @@ from user.serializer import StaffSerializer, UserSerializer
 
 
 class RegisterAPIView(viewsets.ModelViewSet):
+    """Register User endpoint view"""
     queryset = User.objects.all()
     authentication_classes = (CustomUserAuthentication,)
     permission_classes = (AllowAny,)
@@ -27,7 +28,7 @@ class RegisterAPIView(viewsets.ModelViewSet):
 
 
 class LoginAPIView(views.APIView):
-
+    """Login User endpoint view"""
     def get(self, request):
         return response.Response(services.REQUIRED_FIELDS, status=200)
 
@@ -56,6 +57,7 @@ class LoginAPIView(views.APIView):
 
 class UserAPIView(mixins.ListModelMixin,
                   GenericViewSet):
+    """User session endpoint view"""
     serializer_class = UserSerializer
     authentication_classes = (CustomUserAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -66,6 +68,7 @@ class UserAPIView(mixins.ListModelMixin,
 
 
 class LogoutAPIView(views.APIView):
+    """Logout User endpoint view"""
     authentication_classes = (CustomUserAuthentication,)
     permission_classes = (IsAuthenticated,)
 

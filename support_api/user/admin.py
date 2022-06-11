@@ -11,6 +11,7 @@ class UserAdmin(admin.ModelAdmin):
         "email"
     )
     search_fields = ('email',)
+    list_display_links = ('email',)
 
 
 admin.site.register(models.User, UserAdmin)

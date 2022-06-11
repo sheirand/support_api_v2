@@ -12,7 +12,7 @@ from user.authentication import CustomUserAuthentication
 
 
 class IssueViewSet(viewsets.ModelViewSet):
-    """Issue model view"""
+    """Issue endpoint view"""
     authentication_classes = (CustomUserAuthentication,)
 
     def get_queryset(self):
@@ -85,7 +85,7 @@ class CommentsViewSet(mixins.CreateModelMixin,
                       mixins.RetrieveModelMixin,
                       mixins.ListModelMixin,
                       GenericViewSet):
-    """Comments model view"""
+    """Comments endpoint view"""
     authentication_classes = (CustomUserAuthentication,)
     permission_classes = (IsOwnerOrStaff, IsAuthenticated)
     serializer_class = CommentSerializer

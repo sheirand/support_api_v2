@@ -18,7 +18,7 @@ def test_user_create_issue(auth_client, user):
 
     assert data['id']
     assert data['status'] == 'ACTIVE'
-    assert data['created_by'] == user.email
+    assert data['created_by']['email'] == user.email
     assert data['title'] == payload['title']
     assert data['body'] == payload['body']
     assert data['time_created']
@@ -37,7 +37,7 @@ def test_user_can_see_his_issue(user_created_issue_client, user):
 
     data = response.data[0]
 
-    assert data['created_by'] == user.email
+    assert data['created_by']['email'] == user.email
 
 
 @pytest.mark.django_db
@@ -52,7 +52,7 @@ def test_user_can_see_his_issue_detail(user_created_issue_client, user):
     data = response.data
 
     assert data["id"] == detail_id
-    assert data["created_by"] == user.email
+    assert data["created_by"]['email'] == user.email
 
 
 @pytest.mark.django_db

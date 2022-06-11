@@ -4,3 +4,5 @@
 /venv/
 .idea/
 /support_api/issue/migrations/
+/support_api/.app/
+/support_api/.pytest_cache/

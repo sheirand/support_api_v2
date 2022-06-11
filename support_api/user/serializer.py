@@ -5,6 +5,7 @@ from user.models import User
 
 
 class StaffSerializer(serializers.ModelSerializer):
+    """Serializer for User model (superuser)"""
     id = serializers.IntegerField(read_only=True)
     first_name = serializers.CharField()
     last_name = serializers.CharField()
@@ -33,4 +34,5 @@ class StaffSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(StaffSerializer):
+    """Serializer for User model (users and staff)"""
     is_staff = serializers.BooleanField(default=False, read_only=True)

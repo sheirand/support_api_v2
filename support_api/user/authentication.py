@@ -6,7 +6,7 @@ from user import models
 
 
 class CustomUserAuthentication(authentication.BaseAuthentication):
-
+    """Authentication based on JWT in COOKIES"""
     def authenticate(self, request):
 
         token = request.COOKIES.get("jwt")

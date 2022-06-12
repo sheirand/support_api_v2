@@ -96,5 +96,6 @@
     - create users and staff
     - delete and edit users information
     - delete and edit issues and comments
-
+#
 # Thanks a lot for your attention. Hope you found it usefull for yourself. Farewell!
+

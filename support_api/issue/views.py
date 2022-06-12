@@ -17,14 +17,15 @@ class IssueViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         pk = self.kwargs.get("pk")
-        if self.request.user.is_staff:
-            if not pk:
-                return Issue.objects.all()
-            return Issue.objects.filter(pk=pk)
-        else:
-            if not pk:
-                return Issue.objects.filter(created_by=self.request.user)
-            return Issue.objects.filter(created_by=self.request.user, pk=pk)
+        if self.request.user.is_authenticated:
+            if self.request.user.is_staff:
+                if not pk:
+                    return Issue.objects.all()
+                return Issue.objects.filter(pk=pk)
+            else:
+                if not pk:
+                    return Issue.objects.filter(created_by=self.request.user)
+                return Issue.objects.filter(created_by=self.request.user, pk=pk)
 
     def get_serializer_class(self):
         if self.action in ['update', 'partially_update',

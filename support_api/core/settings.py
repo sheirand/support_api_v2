@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'user.apps.UserConfig',
     'issue.apps.IssueConfig',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [

@@ -70,7 +70,7 @@
 - Django standard admin panel is working with Custom User Model
 - enviroment variables in .env file
 - codestyle: flake8, isort for imports
-- OpenAPI schema is automaticly generated with drf-yasg 
+- OpenAPI schema is automatically generated with drf-yasg tool
 - Permissions:
   
   - user can:

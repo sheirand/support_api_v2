@@ -21,8 +21,8 @@
  
       gh repo clone sheirand/support_api_v2
       
-or
-
+- or
+    
       git clone https://github.com/sheirand/support_api_v2
 
 - add smtp host to .env file (if you want email notification feature up)
@@ -34,7 +34,7 @@ or
      EMAIL_PORT=port
      ```
      
-- enter the docker-compose up on project directory
+- enter the "docker-compose up" inside project directory (support_api_v2/support_api)
     
       docker-compose up
 

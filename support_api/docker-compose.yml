@@ -8,6 +8,7 @@ services:
              python manage.py migrate user &&
              python manage.py makemigrations issue &&
              python manage.py migrate issue &&
+             python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .app/:/usr/src/app/

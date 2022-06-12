@@ -96,12 +96,13 @@ def test_user_cant_see_other_issues(auth_client, user_staff):
 @pytest.mark.django_db
 def test_staff_can_change_status(auth_staff_client, user, user_staff):
     payload = dict(
-        assignee=user_staff.pk,
+        assignee=user_staff.email,
         status="RESOLVED",
     )
     issue = issue_models.Issue.objects.create(title="Issue",
                                               body="body",
                                               created_by=user)
+    issue.refresh_from_db()
     response = auth_staff_client.put(f"/api/v1/issue/{issue.pk}/", payload)
 
     assert response.status_code == 200
@@ -109,7 +110,7 @@ def test_staff_can_change_status(auth_staff_client, user, user_staff):
     issue.refresh_from_db()
 
     assert response.data['status'] == issue.status
-    assert response.data['assignee'] == issue.assignee.pk
+    assert response.data['assignee'] == issue.assignee.email
 
 
 @pytest.mark.django_db

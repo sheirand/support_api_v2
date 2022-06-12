@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from issue.models import Comments, Issue
 from user import serializer as user_serializer
+from user.models import User
 
 
 class IssueSerializer(serializers.ModelSerializer):
@@ -19,6 +20,7 @@ class IssueSerializer(serializers.ModelSerializer):
 
 class IssueStatusSerializer(serializers.ModelSerializer):
     """Serializer for Issue model (for staff)"""
+    assignee = serializers.SlugRelatedField(queryset=User.objects.filter(is_staff=True), slug_field="email")
     updated_by = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:

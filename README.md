@@ -21,7 +21,7 @@
  
       gh repo clone sheirand/support_api_v2
 
-- add smtp host (if u want email notification feature up)
+- add smtp host to .env file (if you want email notification feature up)
 
   ```EMAIL_USE_TLS=True
      EMAIL_HOST="smtp.some-mail.com"

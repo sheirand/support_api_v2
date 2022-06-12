@@ -20,6 +20,10 @@
 - git clone the project
  
       gh repo clone sheirand/support_api_v2
+      
+or
+
+      git clone https://github.com/sheirand/support_api_v2
 
 - add smtp host to .env file (if you want email notification feature up)
 

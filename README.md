@@ -65,25 +65,36 @@
   - no usernames, only email
   - permissions based on user classes: superuser (admin), staff (support team), users
   - authentication based on JWT in cookies
-
+- Pytest is used for testing
+- Project is fully dockerized and can be up with one command
+- Django standard admin panel is working with Custom User Model
+- enviroment variables in .env file
+- codestyle: flake8, isort for imports
+- OpenAPI schema is automaticly generated with drf-yasg 
 - Permissions:
+  
   - user can:
+  
     - register/login/logout/see his profile
     - create issues
     - see his own issues
     - leave comments on issues
     - see all comments on his issues
     - recieve email notification if status of his issue has been change
+  
   - staff inherits user and can:
+  
     - see all issues posted
     - change issue status
     - assign issues only on staff
     - edit issues
     - leave comment on all issues
     - see all comments on all issues
+  
   - admin inherits staff and can:
+  
     - create users and staff
     - delete and edit users information
     - delete and edit issues and comments
 
-[email]: eugene.osakovich@gmail.com
+# Thanks a lot for your attention. Hope you found it usefull for yourself. Farewell!
